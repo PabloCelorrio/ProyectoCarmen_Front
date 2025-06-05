@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+  margin: 10px;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+  font-family: 'Press Start 2P', cursive;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #f8f8f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  animation: backgroundAnimation 10s ease-in-out infinite alternate;
+}
+
+@keyframes backgroundAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.container {
+  max-width: 90%;
+  padding: 2rem;
+}
+
+h1, h2 {
+  color: #00fff7;
+  text-shadow: 0 0 4px #00fff7, 0 0 8px #00fff7;
+  margin-bottom: 1.5rem;
+}
+
+p {
+  font-size: 0.8rem;
+  color: #e0e0e0;
+  margin-bottom: 2rem;
+  text-shadow: 0 0 2px #ffffff50;
+}
+
+.text {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fff;
+}
+
+.text:focus {
+  border-color: #7c3aed; /* Indigo */
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.2);
+}
+
+
+button {
+  font-family: 'Press Start 2P', cursive;
+  background-color: #ff0055;
+  color: white;
+  padding: 0.8rem 1.6rem;
+  border: 3px solid #ffffff50;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 8px #ff005550;
+}
+
+button:hover {
+  background-color: #ff3366;
+  box-shadow: 0 0 15px #ff0055;
+  transform: scale(1.05);
+}
+
+@media (max-width: 600px) {
+  body {
+    font-size: 10px;
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+  }
+
+  p {
+    font-size: 0.7rem;
+  }
+
+  button {
+    font-size: 0.6rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
