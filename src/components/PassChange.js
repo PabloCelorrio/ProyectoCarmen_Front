@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {usuario, profile, password} from './User';
-import Game from './Game';
 
 const PassChange = ({onSubmit}) => {
 

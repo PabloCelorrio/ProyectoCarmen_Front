@@ -14,13 +14,13 @@ const App = () => {
   const checkSession = async () => {
     try {
       const res = await fetch("http://localhost:8000/api/check-session", {
-        credentials: "include", // 👈 MUY IMPORTANTE para enviar la cookie
+        credentials: "include",
       });
 
       if (res.ok) {
-        setPassOk(true); // sesión válida
+        setPassOk(true);
       } else {
-        setPassOk(false); // sesión caducada o inexistente
+        setPassOk(false);
       }
     } catch (err) {
       console.error("Error al verificar sesión:", err);

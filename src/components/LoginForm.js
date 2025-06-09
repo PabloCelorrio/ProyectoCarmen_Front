@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
+import { useNavigate } from "react-router-dom";
 import {password, usuario} from './User'
 
 const LoginForm = ({onSubmit}) => {
 
+    const navigate = useNavigate();
     const [email, setUser] = useState('');
     const [password, setPass] = useState('');
 
@@ -18,8 +20,8 @@ const LoginForm = ({onSubmit}) => {
 
         <form onSubmit={handleSubmit}>
             <div>
-                <input id="userEmail" class="text" value={email} onChange={(e) => setUser(e.target.value)} placeholder="Dirección de correo"/>
-                <input id="password" class="text" type="password" placeholder="Contraseña" value={password} onChange={(e) => setPass(e.target.value)}/>
+                <input id="userEmail" className="text" value={email} onChange={(e) => setUser(e.target.value)} placeholder="Dirección de correo"/>
+                <input id="password" className="text" type="password" placeholder="Contraseña" value={password} onChange={(e) => setPass(e.target.value)}/>
 
                 <button type="submit">Entrar</button>
 
@@ -29,7 +31,7 @@ const LoginForm = ({onSubmit}) => {
                     <hr style={{ flex: 1, border: 'none', borderTop: '1px solid #ccc' }} />
                 </div>
 
-                <button type="button" onClick={() => {/* Aquí iría navegación o lógica */}}>Crear una cuenta</button>
+                <button type="button" onClick={() => navigate("/register")}>Crear una cuenta</button>
             </div>      
         </form>
 
