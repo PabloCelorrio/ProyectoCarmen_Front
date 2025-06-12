@@ -2,11 +2,43 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
+
+
 export function GameMenu({ userId }) {
   const [games, setGames] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/games/${userId}`)
+
+    const checkToken = () => {
+      const token = localStorage.getItem("token"); // o el nombre que uses
+      if (!token) {
+        setPassOk(false);
+        return;
+      }
+
+      try {
+        // Suponiendo que el token es un JWT
+        const payloadBase64 = token.split('.')[1];
+        const decodedPayload = JSON.parse(atob(payloadBase64));
+        const now = Math.floor(Date.now() / 1000); // tiempo actual en segundos
+
+        if (!decodedPayload.exp || decodedPayload.exp < now) {
+          localStorage.removeItem("token");
+          navigate("/");
+        }
+      } catch (e) {
+        localStorage.removeItem("token");
+          navigate("/");
+      }
+    };
+
+    checkToken();
+
+    axios.get(`https://67ef-84-126-134-7.ngrok-free.app/api/games/saved-games`, {headers: {
+    //axios.get(`http://localhost:8000/api/games/saved-games`, {headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    }})
       .then(res => setGames(res.data))
       .catch(err => console.error("Error al obtener partidas:", err));
   }, [userId]);
@@ -14,14 +46,19 @@ export function GameMenu({ userId }) {
   const handleSelect = (index) => {
     const selectedGame = games[index];
     alert(`Cargando partida con ID: ${selectedGame.gameDataID}`);
-    // Aquí iría la lógica para cargar y navegar
+    localStorage.setItem("saveId", selectedGame.gameDataID);
+    navigate("/partida");
   };
 
   const handleCreate = () => {
-    axios.post(`http://localhost:8000/api/games/${userId}`)
+    axios.post(`https://67ef-84-126-134-7.ngrok-free.app/api/games/saved-games`, {}, {headers: {
+    //axios.post(`http://localhost:8000/api/games/saved-games`, {}, {headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    }})
       .then(res => {
         alert("Nueva partida creada");
-        window.location.reload();
+        localStorage.setItem("saveId", res.data[0].game.gameDataID);
+        navigate("/partida");
       })
       .catch(err => console.error("Error al crear partida:", err));
   };
@@ -40,6 +77,33 @@ export function GameMenu({ userId }) {
 
 export default function Menu() {
     const navigate = useNavigate();
+
+    useEffect(() => {
+    const checkToken = () => {
+      const token = localStorage.getItem("token"); // o el nombre que uses
+      if (!token) {
+        setPassOk(false);
+        return;
+      }
+
+      try {
+        // Suponiendo que el token es un JWT
+        const payloadBase64 = token.split('.')[1];
+        const decodedPayload = JSON.parse(atob(payloadBase64));
+        const now = Math.floor(Date.now() / 1000); // tiempo actual en segundos
+
+        if (!decodedPayload.exp || decodedPayload.exp < now) {
+          localStorage.removeItem("token");
+          navigate("/");
+        }
+      } catch (e) {
+        localStorage.removeItem("token");
+          navigate("/");
+      }
+    };
+
+    checkToken();
+  }, []);
 
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-indigo-800 to-purple-700 text-white p-4">

@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 * {
-  margin: 10px;
   padding: 0;
   box-sizing: border-box;
 }
@@ -12,12 +11,14 @@ body, html {
   font-family: 'Press Start 2P', cursive;
   background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   color: #f8f8f8;
-  display: flex;
   justify-content: center;
+  display: flex;
   align-items: center;
   text-align: center;
-  overflow: hidden;
+  overflow-y: auto;
   animation: backgroundAnimation 10s ease-in-out infinite alternate;
+    background-image: url('./assets/images/background.jpg');
+  background-size: cover;
 }
 
 @keyframes backgroundAnimation {
@@ -102,4 +103,5 @@ button:hover {
     font-size: 0.6rem;
     padding: 0.6rem 1.2rem;
   }
+  
 }

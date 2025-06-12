@@ -3,9 +3,11 @@ import React from 'react';
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PassChange from './components/PassChange';
-import {GameMenu} from "./components/Menu";
+import Menu, {GameMenu} from "./components/Menu";
 import UserCreate from "./components/UserCreate";
 import Game from "./components/Game";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "./styles.css";
 
 import App from "./App";
 
@@ -16,10 +18,11 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />} />
+      <Route path="/menu" element={<Menu />} />
       <Route path="/juego" element={<GameMenu/>} />
       <Route path="/ajustes" element={<PassChange />} />
       <Route path="/register" element={<UserCreate />} />
-      <Route path="/test-game" element={<Game />} />
+      <Route path="/partida" element={<Game />} />
     </Routes>
   </BrowserRouter>
 );

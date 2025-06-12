@@ -8,13 +8,34 @@ const LoginForm = ({onSubmit}) => {
     const [email, setUser] = useState('');
     const [password, setPass] = useState('');
 
-    const handleSubmit = (e) => {
+   const handleSubmit = async (e) => {
+  e.preventDefault();
 
-        e.preventDefault();
-        onSubmit({email: email, password: password});
-        usuario.email = email;
-        usuario.password = password;
-    };
+  try {
+    const res = await fetch("https://67ef-84-126-134-7.ngrok-free.app/api/login", {
+    //const res = await fetch("http://localhost:8000/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!res.ok) throw new Error("Credenciales incorrectas");
+
+    const token = res.headers.get("Authorization")?.replace("Bearer ", "");
+    if (!token) throw new Error("No se recibió el token");
+
+    localStorage.setItem("token", token);
+
+    // Decodificar el token para extraer datos
+    /*const payload = JSON.parse(atob(token.split('.')[1]));
+    const userData = JSON.parse(payload.userRequestData);*/
+    navigate("/menu");
+
+  } catch (err) {
+    alert(err.message);
+    console.error(err);
+  }
+};
 
     return (
 

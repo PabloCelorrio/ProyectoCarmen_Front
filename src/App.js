@@ -11,25 +11,32 @@ const App = () => {
   const [passOk, setPassOk] = useState(false);
 
   useEffect(() => {
-  const checkSession = async () => {
-    try {
-      const res = await fetch("http://localhost:8000/api/check-session", {
-        credentials: "include",
-      });
+    const checkToken = () => {
+      const token = localStorage.getItem("token"); // o el nombre que uses
+      if (!token) {
+        setPassOk(false);
+        return;
+      }
 
-      if (res.ok) {
-        setPassOk(true);
-      } else {
+      try {
+        // Suponiendo que el token es un JWT
+        const payloadBase64 = token.split('.')[1];
+        const decodedPayload = JSON.parse(atob(payloadBase64));
+        const now = Math.floor(Date.now() / 1000); // tiempo actual en segundos
+
+        if (decodedPayload.exp && decodedPayload.exp > now) {
+          setPassOk(true);
+        } else {
+          setPassOk(false);
+        }
+      } catch (e) {
+        // token mal formado o error al decodificar
         setPassOk(false);
       }
-    } catch (err) {
-      console.error("Error al verificar sesión:", err);
-      setPassOk(false);
-    }
-  };
+    };
 
-  checkSession();
-}, []);
+    checkToken();
+  }, []);
   
   const handleSubmit = async (formData) => {
 
@@ -43,7 +50,7 @@ const App = () => {
 
         }
 
-        const response = await fetch('http://localhost:8000/api/login', {method: 'POST', 
+        const response = await fetch(`https://67ef-84-126-134-7.ngrok-free.app/api/login`, {method: 'POST', 
                                                   headers: {'Content-Type': 'application/json',
                                                             'Accept': 'application/json,text/plain',
                                                             Authorization: ""
@@ -60,7 +67,7 @@ const App = () => {
 
       }else {
 
-        const passwordChange = await fetch('http://localhost:8000/api/pass-change', {method: 'POST', 
+        const passwordChange = await fetch(`https://67ef-84-126-134-7.ngrok-free.app/api/pass-change`, {method: 'POST', 
                                                   headers: {'Content-Type': 'application/json',
                                                             'Accept': 'application/json,text/plain',
                                                             Authorization: localStorage.getItem('token')}, 
