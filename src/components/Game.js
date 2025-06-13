@@ -56,6 +56,8 @@ export default function CarmenSandiegoGame() {
   const [locations, setLocations] = useState([]);
   const [clueSidebarOpen, setClueSidebarOpen] = useState(false);
 
+  const ngrokUrl = localStorage.getItem("backend-link");
+
   const scoreInfo = {
     gameWon : false,
     score : 0,
@@ -153,7 +155,7 @@ export default function CarmenSandiegoGame() {
 
     }
 
-    const response = fetch('https://67ef-84-126-134-7.ngrok-free.app/api/games/score-save', {method: 'POST',
+    const response = fetch(`${ngrokUrl}/api/games/score-save`, {method: 'POST',
     //const response = fetch('http://localhost:8000/api/games/score-save', {method: 'POST', 
                                                   headers: {'Content-Type': 'application/json',
                                                             'Accept': 'application/json,text/plain',

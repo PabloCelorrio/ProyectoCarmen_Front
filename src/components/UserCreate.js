@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 const UserCreate = () => {
 
+    const ngrokUrl = localStorage.getItem("backend-link");
+
   const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
@@ -55,7 +57,7 @@ const UserCreate = () => {
     }
 
     try {
-      const response = await fetch('https://67ef-84-126-134-7.ngrok-free.app/api/user/create', {
+      const response = await fetch(`${ngrokUrl}/api/user/create`, {
         method: 'POST',
         body,
       });

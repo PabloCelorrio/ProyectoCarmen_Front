@@ -4,6 +4,8 @@ import {usuario, profile, password} from './User';
 
 const PassChange = ({onSubmit}) => {
 
+    const ngrokUrl = localStorage.getItem("backend-link");
+
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
@@ -40,30 +42,49 @@ const handleChange = (e) => {
     }
   };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
+    e.preventDefault();
+    const error = validate();
+    if (error) return alert(error);
 
-        e.preventDefault();
+    const body = new FormData();
+    body.append('userName', formData.userName);
+    body.append('email', formData.email);
+    body.append('password', formData.password);
+    if (formData.image) {
+      body.append('image', formData.image);
+    }
 
-        if(user == usuario.user && oldPass == password.oldPass && oldPass != newPass && newPass == newPassVeri){
+    try {
 
-            usuario.pass = newPass;
-            onSubmit({user, newPass});
+      const response = await fetch(`${ngrokUrl}/api/pass-change`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json',
+                                                            'Accept': 'application/json,text/plain',
+                                                            Authorization: "Bearer " + localStorage.getItem("token")
+                                                            },
+        body,
+      });
 
-        }else{
-
-            if(oldPass == newPass){
-
-                console.log('La contraseña nueva no puede ser igual a la antigua.');
-
-            }else{
-
-                console.log("La contraseña antigua no es correcta.");
-
-            }
-        }
-
-
-    };
+      if (response.ok) {
+        alert('Usuario actualizado exitosamente');
+        setFormData({
+          userName: '',
+          oldPass: '',
+          newPass: '',
+          newPassVeri: '',
+          image: null,
+        });
+         navigate('/');
+      } else {
+        const errorText = await response.text();
+        alert('Error al actualizar usuario: ' + errorText);
+      }
+    } catch (err) {
+      console.error('Error en la petición:', err);
+      alert('Error de conexión con el servidor');
+    }
+  };
 
     return (
 

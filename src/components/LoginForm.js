@@ -8,11 +8,13 @@ const LoginForm = ({onSubmit}) => {
     const [email, setUser] = useState('');
     const [password, setPass] = useState('');
 
+    const ngrokUrl = localStorage.getItem("backend-link");
+
    const handleSubmit = async (e) => {
   e.preventDefault();
 
   try {
-    const res = await fetch("https://67ef-84-126-134-7.ngrok-free.app/api/login", {
+    const res = await fetch(`${ngrokUrl}/api/login`, {
     //const res = await fetch("http://localhost:8000/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

@@ -8,6 +8,10 @@ import Menu from "./components/Menu";
 
 const App = () => {
 
+  localStorage.setItem("backend-link", "http://localhost:8000");
+
+  const ngrokUrl = localStorage.getItem("backend-link");
+
   const [passOk, setPassOk] = useState(false);
 
   useEffect(() => {
@@ -50,7 +54,7 @@ const App = () => {
 
         }
 
-        const response = await fetch(`https://67ef-84-126-134-7.ngrok-free.app/api/login`, {method: 'POST', 
+        const response = await fetch(`${ngrokUrl}/api/login`, {method: 'POST', 
                                                   headers: {'Content-Type': 'application/json',
                                                             'Accept': 'application/json,text/plain',
                                                             Authorization: ""
@@ -67,7 +71,7 @@ const App = () => {
 
       }else {
 
-        const passwordChange = await fetch(`https://67ef-84-126-134-7.ngrok-free.app/api/pass-change`, {method: 'POST', 
+        const passwordChange = await fetch(`${ngrokUrl}/api/pass-change`, {method: 'POST', 
                                                   headers: {'Content-Type': 'application/json',
                                                             'Accept': 'application/json,text/plain',
                                                             Authorization: localStorage.getItem('token')}, 
@@ -108,3 +112,10 @@ const App = () => {
 };
 
 export default App
+
+
+/**
+ * PARA QUE FUNCIONE LA APP HAY QUE INICIARLA Y CAMBIAR EL CONTENIDO DEL ITEM DE LOCALSTORAGE EN LA LÍNEA 11 POR LA DIRECCIÓN QUE DEVUELVA NGROK:
+ * 
+ *  [0] t=2025-06-13T02:31:30+0200 lvl=info msg="started tunnel" obj=tunnels name=command_line addr=http://localhost:8000 -> url=https://60bb-84-126-134-7.ngrok-free.app <-
+ */
